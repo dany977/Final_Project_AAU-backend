@@ -35,16 +35,5 @@ router.delete("/:id", authMiddleware, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-/**
- * @swagger
- * /api/farms:
- *   get:
- *     summary: Get all farms
- *     tags: [Farms]
- *     responses:
- *       200:
- *         description: List of farms
- */
-router.get("/", getFarms);
 
 export default router;
