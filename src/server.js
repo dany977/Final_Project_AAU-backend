@@ -12,13 +12,11 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors(
-origin: [
-    "https://frontendfarm.netlify.app",
-    "http://localhost:5173"
-],
+app.use(cors({
+origin: "https://final-project-aau-frontend.vercel.app",
 credentials: true,
-));
+})
+);
 
 app.use(express.json());
 app.use(cookieParser());
