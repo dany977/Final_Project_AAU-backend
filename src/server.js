@@ -28,7 +28,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/farms", farmRoutes);
 app.use("/api/animals", animalRoutes);
 
-const PORT = process.env.PORT || 7000;
+const PORT = process.env.PORT || 10000;
+
 
 (async () => {
   try {
