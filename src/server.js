@@ -12,13 +12,14 @@ dotenv.config();
 
 const app = express();
 
+
 app.use(cors({
-  origin: "https://final-aau-frontends.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
+  origin: [
+    "https://final-aau-frontends.vercel.app",
+    "http://localhost:5173"
+  ],
+  credentials: true
 }));
-
-
 app.use(express.json());
 app.use(cookieParser());
 

@@ -10,12 +10,11 @@ export default (sequelize) => {
 
     username: { type: DataTypes.STRING, allowNull: false, unique: true },
 
-    // The controller uses user.password
-    password: { type: DataTypes.STRING, allowNull: false },
+    // FIXED: must match controller
+    passwordHash: { type: DataTypes.STRING, allowNull: false },
   }, {
     tableName: "users",
   });
 
   return User;
 };
-

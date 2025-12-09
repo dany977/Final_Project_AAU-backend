@@ -6,8 +6,8 @@ export const register = async (req, res) => {
   try {
     const { firstName, lastName, email, username, password } = req.body;
 
-    if (!username || !password) {
-      return res.status(400).json({ message: "Username and password required" });
+    if (!username || !password || !email) {
+      return res.status(400).json({ message: "Required fields missing" });
     }
 
     const exists = await User.findOne({ where: { username } });
@@ -15,17 +15,19 @@ export const register = async (req, res) => {
 
     const hashed = await bcrypt.hash(password, 10);
 
-await User.create({
-  username,
-  passwordHash: hashed,
-});
+    await User.create({
+      firstName,
+      lastName,
+      email,
+      username,
+      passwordHash: hashed,
+    });
 
-
-    res.json({ message: "User created successfully" });
+    return res.status(201).json({ message: "User created successfully" });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    console.error("REGISTER ERROR:", err);
+    return res.status(500).json({ message: "Server error" });
   }
 };
 
