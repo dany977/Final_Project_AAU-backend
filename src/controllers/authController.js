@@ -15,13 +15,11 @@ export const register = async (req, res) => {
 
     const hashed = await bcrypt.hash(password, 10);
 
-    await User.create({
-      firstName,
-      lastName,
-      email,
-      username,
-      password: hashed,
-    });
+await User.create({
+  username,
+  passwordHash: hashed,
+});
+
 
     res.json({ message: "User created successfully" });
 
@@ -38,7 +36,8 @@ export const login = async (req, res) => {
     const user = await User.findOne({ where: { username } });
     if (!user) return res.status(400).json({ message: "Invalid username" });
 
-    const match = await bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, user.passwordHash);
+
     if (!match) return res.status(400).json({ message: "Invalid password" });
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
