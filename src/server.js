@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-origin: "https://frontends-dun-six.vercel.app",
+origin: "https://final-aau-frontends.vercel.app",
 
 credentials: true,
 })
