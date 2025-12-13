@@ -1,11 +1,10 @@
 import express from "express";
 import db from "../models/index.js";
-import { authenticate, isAdmin } from "../middleware/authMiddleware.js";
+import { authenticate, isAdmin } from "../utils/authMiddleware.js";
 
 const router = express.Router();
 const { User } = db;
 
-// GET ALL USERS (ADMIN)
 router.get("/users", authenticate, isAdmin, async (req, res) => {
   const users = await User.findAll({
     attributes: ["id", "name", "email", "role", "createdAt"],
@@ -13,9 +12,12 @@ router.get("/users", authenticate, isAdmin, async (req, res) => {
   res.json(users);
 });
 
-// PROMOTE USER TO ADMIN
 router.put("/make-admin/:id", authenticate, isAdmin, async (req, res) => {
-  await User.update({ role: "admin" }, { where: { id: req.params.id } });
+  await User.update(
+    { role: "admin" },
+    { where: { id: req.params.id } }
+  );
+
   res.json({ message: "User promoted to admin" });
 });
 
