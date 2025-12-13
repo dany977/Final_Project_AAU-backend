@@ -1,29 +1,22 @@
 import express from "express";
-import { authMiddleware } from "../utils/authMiddleware.js";
-import { adminMiddleware } from "../utils/adminMiddleware.js";
-import { User } from "../models/index.js";
+import db from "../models/index.js";
+import { authenticate, isAdmin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
+const { User } = db;
 
-// Get all users
-router.get("/users", authMiddleware, adminMiddleware, async (req, res) => {
+// GET ALL USERS (ADMIN)
+router.get("/users", authenticate, isAdmin, async (req, res) => {
   const users = await User.findAll({
-    attributes: { exclude: ["password"] },
+    attributes: ["id", "name", "email", "role", "createdAt"],
   });
   res.json(users);
 });
 
-// Delete user
-router.delete("/users/:id", authMiddleware, adminMiddleware, async (req, res) => {
-  await User.destroy({ where: { id: req.params.id } });
-  res.json({ message: "User deleted" });
-});
-
-// Change role
-router.put("/users/:id/role", authMiddleware, adminMiddleware, async (req, res) => {
-  const { role } = req.body;
-  await User.update({ role }, { where: { id: req.params.id } });
-  res.json({ message: "Role updated" });
+// PROMOTE USER TO ADMIN
+router.put("/make-admin/:id", authenticate, isAdmin, async (req, res) => {
+  await User.update({ role: "admin" }, { where: { id: req.params.id } });
+  res.json({ message: "User promoted to admin" });
 });
 
 export default router;

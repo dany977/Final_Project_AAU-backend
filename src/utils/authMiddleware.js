@@ -1,19 +1,24 @@
-
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
 
-export const authMiddleware = (req, res, next) => {
+export const authenticate = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
   try {
-    const header = req.headers.authorization || "";
-    const token = header.startsWith("Bearer ") ? header.slice(7) : null;
-    if (!token) return res.status(401).json({ message: "No token" });
-
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { id: decoded.id, username: decoded.username };
+    req.user = decoded;
     next();
-  } catch (err) {
-    console.error("Auth error:", err);
+  } catch (error) {
     res.status(401).json({ message: "Invalid token" });
   }
+};
+
+export const isAdmin = (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ message: "Admin access only" });
+  }
+  next();
 };
