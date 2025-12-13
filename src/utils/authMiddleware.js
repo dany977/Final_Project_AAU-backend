@@ -1,27 +1,19 @@
+
 import jwt from "jsonwebtoken";
-import db from "../models/index.js";
+import dotenv from "dotenv";
+dotenv.config();
 
-const { User } = db;
-
-export const authMiddleware = async (req, res, next) => {
+export const authMiddleware = (req, res, next) => {
   try {
-    const authHeader = req.headers.authorization;
+    const header = req.headers.authorization || "";
+    const token = header.startsWith("Bearer ") ? header.slice(7) : null;
+    if (!token) return res.status(401).json({ message: "No token" });
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "No token provided" });
-    }
-
-    const token = authHeader.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    const user = await User.findByPk(decoded.id);
-    if (!user) {
-      return res.status(401).json({ message: "User not found" });
-    }
-
-    req.user = user;
+    req.user = { id: decoded.id, username: decoded.username };
     next();
   } catch (err) {
-    return res.status(401).json({ message: "Invalid or expired token" });
+    console.error("Auth error:", err);
+    res.status(401).json({ message: "Invalid token" });
   }
 };

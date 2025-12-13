@@ -1,40 +1,20 @@
 import { DataTypes } from "sequelize";
 
 export default (sequelize) => {
-  const User = sequelize.define(
-    "User",
-    {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
+  const User = sequelize.define("User", {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+    firstName: { type: DataTypes.STRING },
+    lastName: { type: DataTypes.STRING },
+    email: { type: DataTypes.STRING },
 
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-      },
+    username: { type: DataTypes.STRING, allowNull: false, unique: true },
 
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-
-      role: {
-        type: DataTypes.STRING,
-        defaultValue: "user", // user | admin
-      },
-    },
-    {
-      tableName: "users",
-    }
-  );
+    // FIXED: must match controller
+    passwordHash: { type: DataTypes.STRING, allowNull: false },
+  }, {
+    tableName: "users",
+  });
 
   return User;
 };

@@ -7,10 +7,6 @@ import farmRoutes from "./routes/farmRoutes.js";
 import animalRoutes from "./routes/animalRoutes.js";
 import { sequelize } from "./models/index.js";
 import { setupSwagger } from "./swagger.js";
-import adminRoutes from "./routes/adminRoutes.js";
-
-
-
 
 dotenv.config();
 
@@ -26,7 +22,6 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
-app.use("/admin", adminRoutes);
 
 setupSwagger(app);
 
