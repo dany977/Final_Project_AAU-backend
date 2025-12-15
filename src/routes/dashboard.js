@@ -1,5 +1,6 @@
 import express from "express";
-import pool from "../models/index.js"; 
+import { pool } from "../models/index.js";
+
 const router = express.Router();
 
 router.get("/stats", async (req, res) => {
@@ -13,9 +14,9 @@ router.get("/stats", async (req, res) => {
       animals: Number(animals.rows[0].count),
       users: Number(users.rows[0].count),
     });
-  } catch (error) {
-    console.error("Stats error:", error);
-    res.status(500).json({ message: "Failed to load stats" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
