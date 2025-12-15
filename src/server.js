@@ -7,10 +7,6 @@ import farmRoutes from "./routes/farmRoutes.js";
 import animalRoutes from "./routes/animalRoutes.js";
 import { sequelize } from "./models/index.js";
 import { setupSwagger } from "./swagger.js";
-import dashboardRoutes from "./routes/dashboard.js";
-
-app.use("/dashboard", dashboardRoutes);
-
 
 dotenv.config();
 
