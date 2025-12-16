@@ -1,13 +1,15 @@
-
 import express from "express";
 import { authMiddleware } from "../utils/authMiddleware.js";
-import { createAnimal, getAnimals, updateAnimal, deleteAnimal } from "../controllers/animalController.js";
+import {
+  createFarm,
+  getFarms,
+  getAllFarmsNoFilter
+} from "../controllers/farmController.js";
 
 const router = express.Router();
 
-router.get("/", authMiddleware, getAnimals);
-router.post("/", authMiddleware, createAnimal);
-router.put("/:id", authMiddleware, updateAnimal);
-router.delete("/:id", authMiddleware, deleteAnimal);
+router.get("/", authMiddleware, getFarms);
+router.get("/all", getAllFarmsNoFilter);
+router.post("/", authMiddleware, createFarm);
 
 export default router;
