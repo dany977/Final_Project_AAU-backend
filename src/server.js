@@ -1,7 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import db from "./models/index.js";
+import { sequelize } from "./models/index.js";
+
 
 import authRoutes from "./routes/authRoutes.js";
 import farmRoutes from "./routes/farmRoutes.js";
@@ -15,6 +16,7 @@ app.use(cors({
   origin: "https://final-aau-frontends.vercel.app",
   credentials: true
 }));
+sequelize.sync()
 
 app.use(express.json());
 
