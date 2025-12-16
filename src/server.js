@@ -11,7 +11,8 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 dotenv.config();
 
 const app = express();
-app.use("/dashboard", dashboardRoutes);
+
+
 
 app.use(cors({
   origin: "https://final-aau-frontends.vercel.app",
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/farms", farmRoutes);
 app.use("/api/animals", animalRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 // health check
 app.get("/", (req, res) => {
