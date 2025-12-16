@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { sequelize } from "./models/index.js";
 
-
 import authRoutes from "./routes/authRoutes.js";
 import farmRoutes from "./routes/farmRoutes.js";
 import animalRoutes from "./routes/animalRoutes.js";
@@ -16,11 +15,10 @@ app.use(cors({
   origin: "https://final-aau-frontends.vercel.app",
   credentials: true
 }));
-sequelize.sync()
 
 app.use(express.json());
 
-// 🔴 THESE LINES ARE REQUIRED
+// routes
 app.use("/api/auth", authRoutes);
 app.use("/api/farms", farmRoutes);
 app.use("/api/animals", animalRoutes);
@@ -32,7 +30,8 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 
-db.sequelize.sync()
+// ✅ ONLY THIS SYNC
+sequelize.sync()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
