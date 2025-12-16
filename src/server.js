@@ -12,13 +12,14 @@ app.use(cors({
   origin: "https://final-aau-frontends.vercel.app",
   credentials: true,
 }));
+await sequelize.sync({ force: true });
 
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 
 const PORT = process.env.PORT || 10000;
-await sequelize.sync({ alter: true });
+
 
 sequelize.authenticate()
   .then(() => {
