@@ -1,6 +1,6 @@
 
 import express from "express";
-import { authMiddleware } from "../utils/authMiddleware.js";
+import  authMiddleware from "../utils/authMiddleware.js";
 import { createFarm, getFarms, getAllFarmsNoFilter } from "../controllers/farmController.js";
 import { Farm } from "../models/index.js";
 
