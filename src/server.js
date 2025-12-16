@@ -6,10 +6,12 @@ import { sequelize } from "./models/index.js";
 import authRoutes from "./routes/authRoutes.js";
 import farmRoutes from "./routes/farmRoutes.js";
 import animalRoutes from "./routes/animalRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 dotenv.config();
 
 const app = express();
+app.use("/dashboard", dashboardRoutes);
 
 app.use(cors({
   origin: "https://final-aau-frontends.vercel.app",
